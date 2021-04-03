@@ -1,0 +1,15 @@
+:host {
+  display: block;
+}
+
+.board__bombs {
+  height: 75vh;
+}
+
+.board__bins {
+  display: flex;
+  max-width: 800px;
+  width: 100%;
+  justify-content: space-between;
+  margin: 0 auto;
+}

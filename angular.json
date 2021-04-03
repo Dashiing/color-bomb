@@ -36,7 +36,7 @@
       "projectType": "application",
       "root": "apps/color-bomb",
       "sourceRoot": "apps/color-bomb/src",
-      "prefix": "color-bomb",
+      "prefix": "cb",
       "architect": {
         "build": {
           "builder": "@angular-devkit/build-angular:browser",
