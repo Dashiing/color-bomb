@@ -1,12 +1,8 @@
-:host {
-  display: block;
-}
-
-.board__bombs {
+.bombs {
   height: 75vh;
 }
 
-.board__bins {
+.bins {
   display: flex;
   max-width: 800px;
   width: 100%;
