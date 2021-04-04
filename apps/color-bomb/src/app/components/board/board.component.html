@@ -1,6 +1,6 @@
-<div class="board__bombs"></div>
+<div class="board__bombs">
+  <cb-bomb color="red"></cb-bomb>
+</div>
 <div class="board__bins">
-  <cb-bin color="red"></cb-bin>
-  <cb-bin color="blue"></cb-bin>
-  <cb-bin color="green"></cb-bin>
+  <cb-bin *ngFor="let color of binColors$ | async" [color]="color"></cb-bin>  
 </div>
