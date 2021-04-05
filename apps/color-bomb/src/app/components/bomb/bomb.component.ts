@@ -1,7 +1,10 @@
 import { Component, ChangeDetectionStrategy, Input, HostBinding, OnInit, HostListener, Output, EventEmitter } from '@angular/core';
+import { Store } from '@ngrx/store';
 import { interval, Observable, of } from 'rxjs';
 import { map, startWith, tap, withLatestFrom } from 'rxjs/operators';
 import { IBomb } from '../../models';
+import { AppState } from '../../store/reducers';
+import * as fromDragBomb from '../../store/actions/drag-bomb.actions';
 
 @Component({
   selector: 'cb-bomb',
@@ -19,6 +22,8 @@ export class BombComponent implements OnInit {
   @HostBinding('style.left') left: string;
 
   lifetime$: Observable<number>;
+
+  constructor(private store: Store<AppState>) {}
 
   ngOnInit(): void {
     this.background = this.bomb.color;
@@ -38,8 +43,8 @@ export class BombComponent implements OnInit {
       );
   }
 
-  @HostListener('dragstart', ['$event'])
-  onDragStart(event: DragEvent) {
-    event.dataTransfer.setData('text/plain', JSON.stringify(this.bomb));
+  @HostListener('dragstart')
+  onDragStart() {
+    this.store.dispatch(fromDragBomb.dragging({ color: this.bomb.color }));
   }
 }

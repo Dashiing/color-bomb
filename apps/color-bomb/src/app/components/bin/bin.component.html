@@ -1,12 +1,10 @@
 <div
   [style.height.px]="width"
   [style.width.px]="height"
-  [style.background]="color"
-  [style.filter]="filter"
   [class]="color"
   [class.lighter-shade]="lighterShade"
   [class.scale]="scale"
-  (drop)="onDrop($event)"
+  (drop)="onDrop()"
   (dragover)="onDragOver()"
   (dragleave)="onDragLeave()"
 ></div>
