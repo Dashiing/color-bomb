@@ -9,3 +9,8 @@ export const selectBombs = createSelector(
   selectFeature,
   (state: fromBombs.State) => state.bombs
 );
+
+export const selectBombsPlaced = createSelector(
+  selectFeature,
+  (state: fromBombs.State) => state.bombsPlaced
+);

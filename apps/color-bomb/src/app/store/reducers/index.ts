@@ -15,5 +15,5 @@ export const reducers: ActionReducerMap<AppState> = {
   [fromCountdown.countdownFeatureKey]: fromCountdown.reducer,
   [fromDragBomb.dragBombFeatureKey]: fromDragBomb.reducer,
   [fromBombs.bombsFeatureKey]: fromBombs.reducer,
-  [fromPoints.pointsFeatureKey]: fromPoints.reducer,
+  [fromPoints.pointsFeatureKey]: fromPoints.reducer
 };

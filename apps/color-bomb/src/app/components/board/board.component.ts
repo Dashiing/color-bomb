@@ -20,9 +20,9 @@ export class BoardComponent implements OnDestroy {
 
   private colors: ColorType[] = ['red', 'blue', 'green'];
   private readonly colorSwitchIntervalPeriod = 40;  // seconds
-  private removeBombSubject = new Subject();
-  private initialSpawnPeriod = 5000;
-  private increaseFrequencyPeriod = 12000;
+  private readonly initialSpawnPeriod = 5000;
+  private readonly increaseFrequencyPeriod = 12000;
+  private readonly gameTimeoutPeriod = 120000;
   private unsubscribe = new Subject();
 
   constructor(boardService: BoardService, store: Store<AppState>) {
@@ -34,7 +34,8 @@ export class BoardComponent implements OnDestroy {
         filter(number => number !== 0 && number % this.colorSwitchIntervalPeriod === 0),
         tap(() => store.dispatch(fromStore.resetCountdown())),
         map(() => boardService.shuffle<ColorType>(this.colors)),
-        startWith(this.colors)
+        startWith(this.colors),
+        takeUntil(this.unsubscribe)
       );
 
     this.points$ = store.select(fromStore.selectPoints);
@@ -54,6 +55,18 @@ export class BoardComponent implements OnDestroy {
         }))),
         takeUntil(this.unsubscribe)
       ).subscribe();
+
+    store.select(fromStore.selectBombsPlaced)
+      .pipe(takeUntil(this.unsubscribe))
+      .subscribe(bombsPlaced => {
+        if (bombsPlaced >= 120) {
+          this.ngOnDestroy();
+        }
+      });
+
+    interval(this.gameTimeoutPeriod)
+      .pipe(takeUntil(this.unsubscribe))
+      .subscribe(() => this.ngOnDestroy);
   }
   ngOnDestroy(): void {
     this.unsubscribe.next();
@@ -62,10 +75,6 @@ export class BoardComponent implements OnDestroy {
 
   trackBombById(_: number, bomb: IBomb) {
     return bomb.id;
-  }
-
-  removeBomb(bombId: number) {
-    this.removeBombSubject.next(bombId);
   }
 
   private getSpawnPeriod(value: number) {
