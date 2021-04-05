@@ -1,5 +1,7 @@
 .bombs {
-  height: 75vh;
+  height: calc(75vh - 38px);
+  position: relative;
+  margin: 75px;
 }
 
 .bins {

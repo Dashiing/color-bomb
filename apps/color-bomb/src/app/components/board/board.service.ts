@@ -24,4 +24,8 @@ export class BoardService {
 
     return array;
   }
+
+  getRandomInt(max: number) {
+    return Math.floor(Math.random() * max)
+  }
 }
