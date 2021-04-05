@@ -1,0 +1,3 @@
+Application design: 1 hour
+Development: 14 hours
+Testing: 1 hour
