@@ -3,4 +3,5 @@ export interface IBomb {
     x: number;
     y: number;
     color: string;
+    lifetime: number;
 }
