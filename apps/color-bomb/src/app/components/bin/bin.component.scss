@@ -1,0 +1,30 @@
+.red {
+  $color: red;
+  background: $color;
+
+  &.lighter-shade {
+    background: tomato;
+  }
+}
+
+.green {
+  $color: green;
+  background: $color;
+
+  &.lighter-shade {
+    background: springgreen;
+  }
+}
+
+.blue {
+  $color: blue;
+  background: $color;
+
+  &.lighter-shade {
+    background: skyblue;
+  }
+}
+
+.scale {
+  transform: scale(1.25);
+}

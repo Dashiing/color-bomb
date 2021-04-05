@@ -38,8 +38,8 @@ export class BombComponent implements OnInit {
       );
   }
 
-  @HostListener('dragstart')
-  onDragStart(event: Event) {
-    console.log(event);
+  @HostListener('dragstart', ['$event'])
+  onDragStart(event: DragEvent) {
+    event.dataTransfer.setData('text/plain', JSON.stringify(this.bomb));
   }
 }

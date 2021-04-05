@@ -4,9 +4,9 @@ import { Injectable } from '@angular/core';
   providedIn: 'root'
 })
 export class BoardService {
-  shuffle(array: string[]) {
+  shuffle<T>(array: T[]) {
     let currentIndex = array.length;
-    let temporaryValue: string;
+    let temporaryValue: T;
     let randomIndex: number;
 
     // While there remain elements to shuffle...

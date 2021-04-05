@@ -5,7 +5,7 @@ import { BoardService } from './board.service';
 import { AppState } from '../../store/reducers';
 import { Store } from '@ngrx/store';
 import * as fromCountdown from '../../store/actions/countdown.actions';
-import { IBomb } from '../../models';
+import { ColorType, IBomb } from '../../models';
 
 @Component({
   selector: 'cb-board',
@@ -14,12 +14,12 @@ import { IBomb } from '../../models';
   changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class BoardComponent {
-  binColors$: Observable<string[]>;
+  binColors$: Observable<ColorType[]>;
 
   bombs$: Observable<IBomb[]>;
   bombs: IBomb[] = [];
 
-  private colors = ['red', 'blue', 'green'];
+  private colors: ColorType[] = ['red', 'blue', 'green'];
   private readonly colorSwitchIntervalPeriod = 40;  // seconds
   private removeBombSubject = new Subject();
   private initialSpawnPeriod = 5000;
@@ -31,7 +31,7 @@ export class BoardComponent {
         tap(() => store.dispatch(fromCountdown.decrement())),
         filter(number => number !== 0 && number % this.colorSwitchIntervalPeriod === 0),
         tap(() => store.dispatch(fromCountdown.reset())),
-        map(() => boardService.shuffle(this.colors)),
+        map(() => boardService.shuffle<ColorType>(this.colors)),
         startWith(this.colors)
       );
 
