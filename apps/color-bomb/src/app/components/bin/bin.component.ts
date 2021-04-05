@@ -2,8 +2,7 @@ import { Component, ChangeDetectionStrategy, Input, ChangeDetectorRef } from '@a
 import { Store } from '@ngrx/store';
 import { take } from 'rxjs/operators';
 import { ColorType } from '../../models';
-import { AppState } from '../../store/reducers';
-import * as fromDragBomb from '../../store/selectors/drag-bomb.selectors';
+import * as fromStore from '../../store';
 
 @Component({
   selector: 'cb-bin',
@@ -18,24 +17,35 @@ export class BinComponent {
   lighterShade = false;
   scale = false;
 
-  constructor(private store: Store<AppState>, private cdr: ChangeDetectorRef) {}
+  constructor(private store: Store<fromStore.AppState>, private cdr: ChangeDetectorRef) {}
 
-  onDrop() {
+  onDrop(event: DragEvent) {
+    event.preventDefault();
     this.lighterShade = false;
     this.scale = false;
+
+    this.store.select(fromStore.selectDraggingBomb)
+      .pipe(take(1))
+      .subscribe(draggingBomb => {
+        if (draggingBomb.color === this.color) {
+          this.store.dispatch(fromStore.droppedSuitableBomb({ id: draggingBomb.id }));
+        }
+      });
   }
 
-  onDragOver() {
-    this.store.select(fromDragBomb.selectDraggingBombColor)
+  onDragOver(event: DragEvent) {
+    event.preventDefault();
+    this.store.select(fromStore.selectDraggingBomb)
       .pipe(take(1))
-      .subscribe(draggingBombColor => {
-        this.lighterShade = draggingBombColor === this.color;
-        this.scale = draggingBombColor === this.color;
+      .subscribe(draggingBomb => {
+        this.lighterShade = draggingBomb.color === this.color;
+        this.scale = draggingBomb.color === this.color;
         this.cdr.markForCheck();
       });
   }
 
-  onDragLeave() {
+  onDragLeave(event: DragEvent) {
+    event.preventDefault();
     this.lighterShade = false;
     this.scale = false;
   }

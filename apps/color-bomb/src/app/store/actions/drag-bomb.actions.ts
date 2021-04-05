@@ -1,11 +1,7 @@
 import { createAction, props } from '@ngrx/store';
-import { ColorType } from '../../models';
+import { IBomb } from '../../models';
 
-export const dragging = createAction(
+export const draggingBomb = createAction(
   '[Drag Bomb] Dragging',
-  props<{ color: ColorType }>()
+  props<{ bomb: IBomb }>()
 );
-
-
-
-

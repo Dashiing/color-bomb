@@ -15,7 +15,7 @@ import { CountdownComponent } from './components/countdown/countdown.component';
   imports: [
     BrowserModule,
     StoreModule.forRoot(reducers),
-    !environment.production ? StoreDevtoolsModule.instrument() : [],
+    !environment.production ? StoreDevtoolsModule.instrument() : []
   ],
   bootstrap: [AppComponent],
 })

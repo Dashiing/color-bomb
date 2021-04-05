@@ -2,7 +2,6 @@
   <cb-bomb
     *ngFor="let bomb of bombs$ | async; trackBy: trackBombById"
     [bomb]="bomb"
-    (lifetimeEnded)="removeBomb($event)"
   ></cb-bomb>
 </div>
 <div class="bins">

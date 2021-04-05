@@ -1,10 +1,10 @@
-import { Component, ChangeDetectionStrategy, Input, HostBinding, OnInit, HostListener, Output, EventEmitter } from '@angular/core';
+import { Component, ChangeDetectionStrategy, Input, HostBinding, OnInit, HostListener } from '@angular/core';
 import { Store } from '@ngrx/store';
 import { interval, Observable, of } from 'rxjs';
 import { map, startWith, tap, withLatestFrom } from 'rxjs/operators';
 import { IBomb } from '../../models';
 import { AppState } from '../../store/reducers';
-import * as fromDragBomb from '../../store/actions/drag-bomb.actions';
+import * as fromStore from '../../store';
 
 @Component({
   selector: 'cb-bomb',
@@ -14,7 +14,6 @@ import * as fromDragBomb from '../../store/actions/drag-bomb.actions';
 })
 export class BombComponent implements OnInit {
   @Input() bomb: IBomb;
-  @Output() lifetimeEnded = new EventEmitter<number>();
 
   @HostBinding('style.background') background: string;
   @HostBinding('attr.draggable') draggable = true;
@@ -37,7 +36,7 @@ export class BombComponent implements OnInit {
         map(([intervalValue, lifetime]) => lifetime - intervalValue + 1),
         tap(value => {
           if (value === 0) {
-            this.lifetimeEnded.emit(this.bomb.id);
+            this.store.dispatch(fromStore.removeBomb({ id: this.bomb.id }))
           }
         })
       );
@@ -45,6 +44,6 @@ export class BombComponent implements OnInit {
 
   @HostListener('dragstart')
   onDragStart() {
-    this.store.dispatch(fromDragBomb.dragging({ color: this.bomb.color }));
+    this.store.dispatch(fromStore.draggingBomb({ bomb: this.bomb }));
   }
 }

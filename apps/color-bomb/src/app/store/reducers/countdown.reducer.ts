@@ -14,12 +14,12 @@ export const initialState: State = {
 export const reducer = createReducer(
   initialState,
   on(
-    fromCountdown.decrement,
+    fromCountdown.decrementCountdown,
     state => ({ ...state, count: state.count - 1 }
     )
   ),
   on(
-    fromCountdown.reset,
+    fromCountdown.resetCountdown,
     () => ({ ...initialState })
   )
 );

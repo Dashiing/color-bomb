@@ -4,7 +4,7 @@
   [class]="color"
   [class.lighter-shade]="lighterShade"
   [class.scale]="scale"
-  (drop)="onDrop()"
-  (dragover)="onDragOver()"
-  (dragleave)="onDragLeave()"
+  (drop)="onDrop($event)"
+  (dragover)="onDragOver($event)"
+  (dragleave)="onDragLeave($event)"
 ></div>

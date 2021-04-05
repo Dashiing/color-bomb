@@ -1,19 +1,21 @@
 import { createReducer, on } from '@ngrx/store';
-import { ColorType } from '../../models';
-import * as DragBombActions from '../actions/drag-bomb.actions';
+import { IBomb } from '../../models';
+import * as fromDragBomb from '../actions/drag-bomb.actions';
 
 export const dragBombFeatureKey = 'dragBomb';
 
 export interface State {
-  color: ColorType;
+  bomb: IBomb;
+  dropped: boolean;
 }
 
 export const initialState: State = {
-  color: undefined
+  bomb: undefined,
+  dropped: false
 };
 
 export const reducer = createReducer(
   initialState,
-  on(DragBombActions.dragging, (state, { color }) => ({ ...state, color }))
+  on(fromDragBomb.draggingBomb, (state, { bomb }) => ({ ...state, bomb, dropped: false })),
 );
 
