@@ -15,8 +15,8 @@ import { ColorType, IBomb } from '../../models';
 })
 export class BoardComponent implements OnDestroy {
   binColors$: Observable<ColorType[]>;
-
   bombs$: Observable<IBomb[]>;
+  points$: Observable<number>;
 
   private colors: ColorType[] = ['red', 'blue', 'green'];
   private readonly colorSwitchIntervalPeriod = 40;  // seconds
@@ -36,6 +36,8 @@ export class BoardComponent implements OnDestroy {
         map(() => boardService.shuffle<ColorType>(this.colors)),
         startWith(this.colors)
       );
+
+    this.points$ = store.select(fromStore.selectPoints);
 
     interval(this.increaseFrequencyPeriod)
       .pipe(

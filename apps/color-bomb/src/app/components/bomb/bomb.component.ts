@@ -36,7 +36,8 @@ export class BombComponent implements OnInit {
         map(([intervalValue, lifetime]) => lifetime - intervalValue + 1),
         tap(value => {
           if (value === 0) {
-            this.store.dispatch(fromStore.removeBomb({ id: this.bomb.id }))
+            this.store.dispatch(fromStore.removeBomb({ id: this.bomb.id }));
+            this.store.dispatch(fromStore.decrementPoints());
           }
         })
       );

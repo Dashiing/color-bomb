@@ -1,3 +1,4 @@
+<div class="score">Score: {{ points$ | async }}</div>
 <div class="bombs">
   <cb-bomb
     *ngFor="let bomb of bombs$ | async; trackBy: trackBombById"

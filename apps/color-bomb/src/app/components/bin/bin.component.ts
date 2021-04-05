@@ -29,6 +29,7 @@ export class BinComponent {
       .subscribe(draggingBomb => {
         if (draggingBomb.color === this.color) {
           this.store.dispatch(fromStore.droppedSuitableBomb({ id: draggingBomb.id }));
+          this.store.dispatch(fromStore.incrementPoints())
         }
       });
   }
