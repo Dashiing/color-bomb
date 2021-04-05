@@ -10,6 +10,6 @@ export const removeBomb = createAction(
   '[Bombs] Remove Bomb',
   props<{ id: number }>()
 );
-export const droppedSuitableBomb = createAction(
-  '[Bombs] Dropped Suitable Bomb',
+export const droppedBomb = createAction(
+  '[Bombs] Dropped Bomb',
   props<{ id: number }>());

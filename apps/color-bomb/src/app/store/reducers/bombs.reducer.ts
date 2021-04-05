@@ -20,6 +20,6 @@ export const reducer = createReducer(
   on(fromBombs.loadBombs, state => state),
   on(fromBombs.createBomb, (state, { bomb }) => ({ ...state, bombs: [...state.bombs, bomb], bombsPlaced: state.bombsPlaced + 1 })),
   on(fromBombs.removeBomb, (state, { id }) => ({ ...state, bombs: [...state.bombs.filter(bomb => bomb.id !== id)] })),
-  on(fromBombs.droppedSuitableBomb, (state, { id }) => ({ ...state, bombs: [...state.bombs.filter(bomb => bomb.id !== id)] }))
+  on(fromBombs.droppedBomb, (state, { id }) => ({ ...state, bombs: [...state.bombs.filter(bomb => bomb.id !== id)] }))
 );
 
