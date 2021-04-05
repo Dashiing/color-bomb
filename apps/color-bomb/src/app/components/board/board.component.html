@@ -1,5 +1,9 @@
 <div class="bombs">
-  <cb-bomb *ngFor="let bomb of bombs$ | async; trackBy: trackBombById" [bomb]="bomb"></cb-bomb>
+  <cb-bomb
+    *ngFor="let bomb of bombs$ | async; trackBy: trackBombById"
+    [bomb]="bomb"
+    (lifetimeEnded)="removeBomb($event)"
+  ></cb-bomb>
 </div>
 <div class="bins">
   <cb-bin *ngFor="let color of binColors$ | async" [color]="color"></cb-bin>

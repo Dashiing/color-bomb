@@ -25,7 +25,9 @@ export class BoardService {
     return array;
   }
 
-  getRandomInt(max: number) {
-    return Math.floor(Math.random() * max)
+  getRandomInt(min: number, max: number) {
+    min = Math.ceil(min);
+    max = Math.floor(max);
+    return Math.floor(Math.random() * (max - min) + min); //The maximum is exclusive and the minimum is inclusive
   }
 }

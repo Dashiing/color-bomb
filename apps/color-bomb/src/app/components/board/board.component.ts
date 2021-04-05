@@ -1,5 +1,5 @@
 import { Component, ChangeDetectionStrategy } from '@angular/core';
-import { interval, Observable } from 'rxjs';
+import { interval, merge, Observable, Subject } from 'rxjs';
 import { filter, map, startWith, tap } from 'rxjs/operators';
 import { BoardService } from './board.service';
 import { AppState } from '../../store/reducers';
@@ -15,11 +15,13 @@ import { IBomb } from '../../models';
 })
 export class BoardComponent {
   binColors$: Observable<string[]>;
-  bombs$: Observable<IBomb[]>;
 
-  private bombs = [];
+  bombs$: Observable<IBomb[]>;
+  bombs: IBomb[] = [];
+
   private colors = ['red', 'blue', 'green'];
   private readonly colorSwitchIntervalPeriod = 40;  // seconds
+  private removeBombSubject = new Subject();
 
   constructor(boardService: BoardService, store: Store<AppState>) {
     this.binColors$ = interval(1000)
@@ -31,20 +33,31 @@ export class BoardComponent {
         startWith(this.colors)
       );
 
-    this.bombs$ = interval(5000)
+    const intervalStream$ = interval(5000)
       .pipe(
-        tap(value => this.bombs = [
+        map((value) => [
           ...this.bombs,
           {
             id: value,
-            x: boardService.getRandomInt(100) + 1,
-            y: boardService.getRandomInt(100) + 1,
-            color: this.colors[boardService.getRandomInt(3)]
-          }]),
-        map(() => this.bombs));
+            x: boardService.getRandomInt(0, 101),
+            y: boardService.getRandomInt(0, 101),
+            color: this.colors[boardService.getRandomInt(0, 3)],
+            lifetime: boardService.getRandomInt(5, 11)
+          }])
+      );
+
+    const removeBombStream$ = this.removeBombSubject
+      .pipe(map(bombId => this.bombs.filter(bomb => bomb.id !== bombId)))
+
+    this.bombs$ = merge(intervalStream$, removeBombStream$)
+      .pipe(tap(bombs => this.bombs = bombs))
   }
 
-  trackBombById(_, bomb: IBomb) {
+  trackBombById(_: number, bomb: IBomb) {
     return bomb.id;
+  }
+
+  removeBomb(bombId: number) {
+    this.removeBombSubject.next(bombId);
   }
 }
